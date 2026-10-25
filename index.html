@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SeatFinder — Smart Restaurant Seating System</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ================= HEADER ================= -->
+  <header class="header">
+    <div class="header-inner">
+      <div>
+        <h1>SeatFinder</h1>
+        <p class="subtitle">Smart Restaurant Seating System</p>
+      </div>
+      <span class="badge">BFS Algorithm Demo</span>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- ================= DASHBOARD ================= -->
+    <section class="dashboard" aria-label="Table statistics">
+      <div class="stat-card">
+        <span class="stat-number" id="totalTables">6</span>
+        <span class="stat-label">Total Tables</span>
+      </div>
+      <div class="stat-card stat-green">
+        <span class="stat-number" id="availableTables">3</span>
+        <span class="stat-label">Available Tables</span>
+      </div>
+      <div class="stat-card stat-red">
+        <span class="stat-number" id="occupiedTables">2</span>
+        <span class="stat-label">Occupied Tables</span>
+      </div>
+      <div class="stat-card stat-gray">
+        <span class="stat-number" id="outOfServiceTables">1</span>
+        <span class="stat-label">Out-of-Service Tables</span>
+      </div>
+    </section>
+
+    <!-- ================= FLOOR PLAN + CONTROLS ================= -->
+    <div class="layout">
+
+      <!-- Floor plan -->
+      <section class="floor-section">
+        <h2>Restaurant Floor Plan</h2>
+        <p class="hint">Click a table to toggle it between available and occupied. On small screens, scroll the floor plan sideways.</p>
+
+        <!-- The grid is built by script.js. The scroll container keeps cells
+             readable on phones instead of shrinking them to fit. -->
+        <div class="floor-scroll">
+          <div id="floorGrid" class="floor-grid"></div>
+        </div>
+
+        <!-- Color legend -->
+        <div class="legend">
+          <span><i class="swatch sw-available"></i> Available table</span>
+          <span><i class="swatch sw-occupied"></i> Occupied table</span>
+          <span><i class="swatch sw-out"></i> Out-of-service table</span>
+          <span><i class="swatch sw-wall"></i> Wall</span>
+          <span><i class="swatch sw-entrance"></i> Entrance</span>
+          <span><i class="swatch sw-exploring"></i> Explored by BFS</span>
+          <span><i class="swatch sw-path"></i> Final path</span>
+        </div>
+      </section>
+
+      <!-- Controls + recommendation -->
+      <aside class="side-panel">
+
+        <section class="controls">
+          <h2>Find a Table</h2>
+
+          <label for="partySize">Party size</label>
+          <select id="partySize">
+            <option value="2">2 people</option>
+            <option value="4">4 people</option>
+            <option value="6">6 people</option>
+          </select>
+
+          <button id="findBtn" class="btn btn-primary">Find Nearest Table</button>
+          <button id="resetBtn" class="btn">Reset Search</button>
+          <button id="restoreBtn" class="btn">Restore Demo Layout</button>
+        </section>
+
+        <section class="result" id="resultBox">
+          <h2>Recommendation</h2>
+          <p class="result-empty" id="resultEmpty">
+            Select a party size and click "Find Nearest Table".
+          </p>
+          <div class="result-details" id="resultDetails" hidden>
+            <p><strong>Recommended table:</strong> <span id="resTable">–</span></p>
+            <p><strong>Table capacity:</strong> <span id="resCapacity">–</span> seats</p>
+            <p><strong>Steps from entrance:</strong> <span id="resSteps">–</span></p>
+            <p><strong>Visited nodes:</strong> <span id="resVisited">–</span></p>
+            <p class="explanation" id="resExplanation"></p>
+          </div>
+          <p class="message" id="messageBox" hidden></p>
+        </section>
+
+      </aside>
+    </div>
+
+    <!-- ================= HOW BFS WORKS ================= -->
+    <section class="howto">
+      <h2>How BFS Works</h2>
+      <ol>
+        <li>BFS starts from the entrance.</li>
+        <li>It visits neighbouring cells level by level — all cells one step away first, then two steps away, and so on.</li>
+        <li>A <strong>queue</strong> controls the order of exploration (first in, first out).</li>
+        <li>A <strong>visited</strong> set prevents the same cell from being explored twice.</li>
+        <li><strong>Parent</strong> references remember where each cell was reached from, so the final route can be traced back.</li>
+        <li>The first suitable table found is the nearest one, because BFS explores in order of distance — so it is recommended.</li>
+      </ol>
+      <p class="complexity">
+        <strong>Complexity:</strong> Time O(V + E) &nbsp;|&nbsp; Space O(V),
+        where V = number of cells and E = number of connections between neighbouring cells.
+        Every move costs the same (1 step), which is why BFS finds the shortest route.
+      </p>
+    </section>
+
+    <footer class="footer">
+      <p>Educational simulation with sample data — not a real reservation system.</p>
+    </footer>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
